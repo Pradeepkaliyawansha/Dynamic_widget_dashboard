@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const WidgetList = ({ isDarkMode, onRemove }) => {
-  const [items, setItems] = useState([
-    { id: 1, text: "Task 1", completed: false },
-    { id: 2, text: "Task 2", completed: true },
-    { id: 3, text: "Task 3", completed: false },
-  ]);
+const WidgetList = ({ id, onRemove }) => {
+  const [items, setItems] = useState(() => {
+    // Retrieve saved items from localStorage using widget-specific key
+    const savedItems = localStorage.getItem(`widgetList-${id}`);
+    return savedItems
+      ? JSON.parse(savedItems)
+      : [
+          { id: 1, text: "Task 1", completed: false },
+          { id: 2, text: "Task 2", completed: true },
+          { id: 3, text: "Task 3", completed: false },
+        ];
+  });
+
   const [newItem, setNewItem] = useState("");
+
+  // Save items to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(`widgetList-${id}`, JSON.stringify(items));
+  }, [items, id]);
 
   const toggleItem = (id) => {
     setItems(
