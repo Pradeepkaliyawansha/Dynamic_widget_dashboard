@@ -91,7 +91,13 @@ const Dashboard = () => {
 
         {/* Widget Grid */}
         <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="dashboard-widgets" direction="vertical">
+          <Droppable
+            isDropDisabled={false}
+            isCombineEnabled={false}
+            ignoreContainerClipping={false}
+            droppableId="dashboard-widgets"
+            direction="vertical"
+          >
             {(provided) => (
               <div
                 {...provided.droppableProps}
@@ -103,59 +109,6 @@ const Dashboard = () => {
                   gridAutoRows: "minmax(min-content, max-content)",
                 }}
               >
-                {/* {widgets.map((widget, index) => (
-                  <Draggable
-                    key={widget.id}
-                    draggableId={widget.id}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className={`${widget.width} ${
-                          widget.height
-                        } transition-all duration-300 ${
-                          snapshot.isDragging ? "opacity-50" : ""
-                        }`}
-                      >
-                        {widget.type === "chart" && (
-                          <WidgetChart
-                            onRemove={() => removeWidget(widget.id)}
-                          />
-                        )}
-                        {widget.type === "text" && (
-                          <WidgetText
-                            onRemove={() => removeWidget(widget.id)}
-                          />
-                        )}
-                        {widget.type === "list" && (
-                          <WidgetList
-                            onRemove={() => removeWidget(widget.id)}
-                          />
-                        )}
-                        {widget.type === "image" && (
-                          <WidgetImage
-                            onRemove={() => removeWidget(widget.id)}
-                          />
-                        )}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
-    </div>
-  );
-};
-
-export default Dashboard; */}
                 {widgets.map((widget, index) => (
                   <Draggable
                     key={widget.id}
@@ -186,6 +139,7 @@ export default Dashboard; */}
                         >
                           {widget.type === "chart" && (
                             <WidgetChart
+                              id={widget.id}
                               onRemove={() => removeWidget(widget.id)}
                               size={widget.size}
                               onSizeChange={(newSize) =>
@@ -195,6 +149,7 @@ export default Dashboard; */}
                           )}
                           {widget.type === "text" && (
                             <WidgetText
+                              id={widget.id}
                               onRemove={() => removeWidget(widget.id)}
                               size={widget.size}
                               onSizeChange={(newSize) =>
@@ -204,6 +159,7 @@ export default Dashboard; */}
                           )}
                           {widget.type === "list" && (
                             <WidgetList
+                              id={widget.id}
                               onRemove={() => removeWidget(widget.id)}
                               size={widget.size}
                               onSizeChange={(newSize) =>
@@ -213,6 +169,7 @@ export default Dashboard; */}
                           )}
                           {widget.type === "image" && (
                             <WidgetImage
+                              id={widget.id}
                               onRemove={() => removeWidget(widget.id)}
                               size={widget.size}
                               onSizeChange={(newSize) =>

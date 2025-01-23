@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const WidgetText = ({ onRemove }) => {
+const WidgetText = ({ id, onRemove }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState("Click to edit this text widget");
+  const [text, setText] = useState(() => {
+    // Retrieve saved text from localStorage using widget-specific key
+    const savedText = localStorage.getItem(`widgetText-${id}`);
+    return savedText || "Click to edit this text widget";
+  });
+
+  // Save text to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(`widgetText-${id}`, text);
+  }, [text, id]);
 
   return (
     <div
