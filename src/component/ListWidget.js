@@ -68,9 +68,9 @@ const WidgetList = ({ id, onRemove }) => {
           required
           value={newItem}
           onChange={(e) => setNewItem(e.target.value)}
-          className="flex-1 p-2 rounded border
-              dark:bg-gray-600 dark:border-gray-500
-              bg-gray-50 border-gray-300"
+          className="w-full sm:w-auto flex-1 p-2 rounded border transition-all duration-300 ease-in-out dark:bg-gray-600 
+                    dark:border-gray-500 dark:text-white bg-gray-50 border-gray-300 text-gray-800 focus:ring-2
+                    focus:ring-blue-500 focus:border-transparent hover:border-blue-300 disabled:opacity-50 disabled:cursor-not-allowed"
           placeholder="Add new item"
         />
         <button

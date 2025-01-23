@@ -83,11 +83,11 @@ const WidgetImage = ({ id, onRemove }) => {
       </div>
 
       <div
-        className={`relative h-40 bg-gray-200 dark:bg-gray-800 rounded overflow-hidden 
-          ${isDragging ? "border-2 border-dashed border-blue-500" : ""}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
+        className={`relative h-40 bg-gray-200 dark:bg-gray-800 rounded overflow-hidden 
+          ${isDragging ? "border-2 border-dashed border-blue-500" : ""}`}
       >
         <img
           src={imageUrl}

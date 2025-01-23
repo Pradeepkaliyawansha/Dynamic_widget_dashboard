@@ -61,28 +61,52 @@ const Dashboard = () => {
           <h1 className="text-2xl font-bold dark:text-gray-100  text-black">
             Dashboard
           </h1>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
             <button
               onClick={() => addWidget("chart")}
-              className="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-colors"
+              className="w-full sm:w-auto px-4 py-2 rounded-lg 
+                        bg-green-500 dark:bg-green-700 
+                        dark:text-white text-black 
+                        hover:bg-green-600 dark:hover:bg-green-800
+                        focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50
+                        transition-all duration-300 ease-in-out
+                        active:scale-95"
             >
               Add Chart
             </button>
             <button
               onClick={() => addWidget("text")}
-              className="px-4 py-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors"
+              className="w-full sm:w-auto px-4 py-2 rounded-lg 
+                        bg-purple-500 dark:bg-purple-700 
+                        dark:text-white text-black 
+                        hover:bg-purple-600 dark:hover:bg-purple-800
+                        focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-50
+                        transition-all duration-300 ease-in-out
+                        active:scale-95"
             >
               Add Text
             </button>
             <button
               onClick={() => addWidget("image")}
-              className="px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition-colors"
+              className="w-full sm:w-auto px-4 py-2 rounded-lg 
+                        bg-orange-500 dark:bg-orange-700 
+                         dark:text-white text-black 
+                        hover:bg-orange-600 dark:hover:bg-orange-800
+                        focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-50
+                        transition-all duration-300 ease-in-out
+                        active:scale-95"
             >
               Add Image
             </button>
             <button
               onClick={() => addWidget("list")}
-              className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+              className="w-full sm:w-auto px-4 py-2 rounded-lg 
+                        bg-blue-500 dark:bg-blue-700 
+                        dark:text-white text-black 
+                        hover:bg-blue-600 dark:hover:bg-blue-800
+                        focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50
+                        transition-all duration-300 ease-in-out
+                        active:scale-95"
             >
               Add List
             </button>
