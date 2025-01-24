@@ -8,10 +8,17 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { Expand } from "lucide-react";
 
 const WidgetChart = ({ id, onRemove }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [darkMode, setDarkMode] = useState("dark");
+
+  const [size, setSize] = useState(() => {
+    const savedSize = localStorage.getItem(`widgetChartSize-${id}`);
+    return savedSize || "medium";
+  });
+
   const [data, setData] = useState(() => {
     // Retrieve saved chart data from localStorage
     const savedData = localStorage.getItem(`widgetChart-${id}`);
@@ -26,13 +33,26 @@ const WidgetChart = ({ id, onRemove }) => {
         ];
   });
 
+  const sizeClasses = {
+    small: "w-64",
+    medium: "w-80",
+    large: "w-150",
+  };
+
+  const chartHeightClasses = {
+    small: "h-32",
+    medium: "h-48",
+    large: "h-64",
+  };
+
   // Save data to localStorage when it changes
   useEffect(() => {
     localStorage.setItem(`widgetChart-${id}`, JSON.stringify(data));
-  }, [data, id]);
+    localStorage.setItem(`widgetChartSize-${id}`, size);
+  }, [data, size, id]);
 
+  // Dark mode observer
   useEffect(() => {
-    // Dark mode observer
     const observer = new MutationObserver(() => {
       setDarkMode(document.documentElement.classList.contains("dark"));
     });
@@ -62,11 +82,27 @@ const WidgetChart = ({ id, onRemove }) => {
     setData(newData);
   };
 
+  const toggleSize = () => {
+    const sizes = ["small", "medium", "large"];
+    const currentIndex = sizes.indexOf(size);
+    const nextIndex = (currentIndex + 1) % sizes.length;
+    setSize(sizes[nextIndex]);
+  };
+
   return (
-    <div className="p-4 rounded-lg bg-white text-gray-800 shadow-lg dark:bg-gray-700 dark:text-white">
+    <div
+      className={`p-4 rounded-lg bg-white text-gray-800 shadow-lg dark:bg-gray-700 dark:text-white ${sizeClasses[size]}`}
+    >
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">Chart Widget</h3>
         <div className="flex items-center gap-2">
+          <button
+            onClick={toggleSize}
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
+            title="Change Size"
+          >
+            <Expand className="w-5 h-5" />
+          </button>
           <button
             onClick={() => setIsEditing(!isEditing)}
             className="p-2 rounded-full hover:bg-blue-100 text-blue-500"
@@ -142,7 +178,7 @@ const WidgetChart = ({ id, onRemove }) => {
           </button>
         </div>
       ) : (
-        <div className="h-48">
+        <div className={chartHeightClasses[size]}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
               <CartesianGrid

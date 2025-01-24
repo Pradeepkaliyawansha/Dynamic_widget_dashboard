@@ -1,26 +1,54 @@
 import React, { useState, useEffect } from "react";
+import { Expand } from "lucide-react";
 
 const WidgetText = ({ id, onRemove }) => {
   const [isEditing, setIsEditing] = useState(false);
+
+  const [size, setSize] = useState(() => {
+    const savedSize = localStorage.getItem(`widgetTextSize-${id}`);
+    return savedSize || "medium";
+  });
+
   const [text, setText] = useState(() => {
     // Retrieve saved text from localStorage using widget-specific key
     const savedText = localStorage.getItem(`widgetText-${id}`);
     return savedText || "Click to edit this text widget";
   });
 
-  // Save text to localStorage whenever it changes
+  const sizeClasses = {
+    small: "w-64",
+    medium: "w-80",
+    large: "w-150",
+  };
+
+  // Save text and size to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem(`widgetText-${id}`, text);
-  }, [text, id]);
+    localStorage.setItem(`widgetTextSize-${id}`, size);
+  }, [text, size, id]);
+
+  const toggleSize = () => {
+    const sizes = ["small", "medium", "large"];
+    const currentIndex = sizes.indexOf(size);
+    const nextIndex = (currentIndex + 1) % sizes.length;
+    setSize(sizes[nextIndex]);
+  };
 
   return (
     <div
-      className="h-full p-4 rounded-lg dark:bg-gray-700 dark:text-white bg-white text-gray-800
-     shadow-lg transition-all duration-300"
+      className={`h-full p-4 rounded-lg dark:bg-gray-700 dark:text-white bg-white text-gray-800
+     shadow-lg transition-all duration-300 ${sizeClasses[size]}`}
     >
       <div className="widget-header flex justify-between items-center mb-2 ">
         <h3 className="text-lg font-semibold">Text Widget</h3>
         <div className="flex gap-2 items-center">
+          <button
+            onClick={toggleSize}
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
+            title="Change Size"
+          >
+            <Expand className="w-5 h-5" />
+          </button>
           <button
             onClick={() => setIsEditing(!isEditing)}
             className="p-2 rounded-full hover:bg-blue-100 text-blue-500"

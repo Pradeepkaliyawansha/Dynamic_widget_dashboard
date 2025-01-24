@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Upload } from "lucide-react";
+import { Upload, Expand } from "lucide-react";
 
 const WidgetImage = ({ id, onRemove }) => {
   const [imageUrl, setImageUrl] = useState(() => {
@@ -9,12 +9,31 @@ const WidgetImage = ({ id, onRemove }) => {
   });
   const [isDragging, setIsDragging] = useState(false);
 
+  // approach to toggle size
+  const [size, setSize] = useState(() => {
+    const savedSize = sessionStorage.getItem(`widgetSize-${id}`);
+    return savedSize || "medium";
+  });
+
+  const sizeClasses = {
+    small: "w-64 p-2",
+    medium: "w-80 p-4",
+    large: "w-150 p-6",
+  };
+
+  const imageSizeClasses = {
+    small: "h-24",
+    medium: "h-40",
+    large: "h-64",
+  };
+
   // Effect to save image to sessionStorage whenever it changes
   useEffect(() => {
     if (imageUrl !== "/api/placeholder/400/320") {
       sessionStorage.setItem(`widgetImage-${id}`, imageUrl);
     }
-  }, [imageUrl, id]);
+    sessionStorage.setItem(`widgetSize-${id}`, size);
+  }, [imageUrl, size, id]);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -58,35 +77,55 @@ const WidgetImage = ({ id, onRemove }) => {
     }
   };
 
+  const toggleSize = () => {
+    const sizes = ["small", "medium", "large"];
+    const currentIndex = sizes.indexOf(size);
+    const nextIndex = (currentIndex + 1) % sizes.length;
+    setSize(sizes[nextIndex]);
+  };
+
   return (
-    <div className="p-4 rounded-lg dark:bg-gray-700 dark:text-white bg-white text-gray-800 shadow-lg">
+    <div
+      className={`rounded-lg dark:bg-gray-700 dark:text-white bg-white text-gray-800 shadow-lg ${sizeClasses[size]}`}
+    >
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">Image Widget</h3>
-        <button
-          onClick={handleRemoveImage}
-          className="p-2 rounded-full hover:bg-red-100 text-red-500"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={toggleSize}
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
+            title="Change Size"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
+            <Expand className="w-5 h-5" />
+          </button>
+          <button
+            onClick={handleRemoveImage}
+            className="p-2 rounded-full hover:bg-red-100 text-red-500"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`relative h-40 bg-gray-200 dark:bg-gray-800 rounded overflow-hidden 
+        className={`relative ${
+          imageSizeClasses[size]
+        } bg-gray-200 dark:bg-gray-800 rounded overflow-hidden 
           ${isDragging ? "border-2 border-dashed border-blue-500" : ""}`}
       >
         <img

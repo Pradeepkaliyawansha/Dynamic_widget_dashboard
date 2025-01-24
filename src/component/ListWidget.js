@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Expand } from "lucide-react";
 
 const WidgetList = ({ id, onRemove }) => {
+  const [size, setSize] = useState(() => {
+    const savedSize = localStorage.getItem(`widgetListSize-${id}`);
+    return savedSize || "medium";
+  });
+
   const [items, setItems] = useState(() => {
     // Retrieve saved items from localStorage using widget-specific key
     const savedItems = localStorage.getItem(`widgetList-${id}`);
@@ -13,12 +19,19 @@ const WidgetList = ({ id, onRemove }) => {
         ];
   });
 
+  const sizeClasses = {
+    small: "w-64",
+    medium: "w-80",
+    large: "w-150",
+  };
+
   const [newItem, setNewItem] = useState("");
 
   // Save items to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem(`widgetList-${id}`, JSON.stringify(items));
-  }, [items, id]);
+    localStorage.setItem(`widgetListSize-${id}`, size);
+  }, [items, size, id]);
 
   const toggleItem = (id) => {
     setItems(
@@ -35,34 +48,49 @@ const WidgetList = ({ id, onRemove }) => {
     setNewItem("");
   };
 
+  const toggleSize = () => {
+    const sizes = ["small", "medium", "large"];
+    const currentIndex = sizes.indexOf(size);
+    const nextIndex = (currentIndex + 1) % sizes.length;
+    setSize(sizes[nextIndex]);
+  };
+
   return (
     <div
-      className="h-full p-4 rounded-lg dark:bg-gray-700 dark:text-white bg-white text-gray-800
-     shadow-lg transition-all duration-300"
+      className={`h-full p-4 rounded-lg dark:bg-gray-700 dark:text-white bg-white text-gray-800 shadow-lg transition-all duration-300 ${sizeClasses[size]}`}
     >
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">List Widget</h3>
-        <button
-          onClick={onRemove}
-          className="p-2 rounded-full hover:bg-red-100 text-red-500"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleSize}
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
+            title="Change Size"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
+            <Expand className="w-5 h-5" />
+          </button>
+          <button
+            onClick={onRemove}
+            className="p-2 rounded-full hover:bg-red-100 text-red-500"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <form onSubmit={addItem} className="mb-4 flex gap-2">
+      <form onSubmit={addItem} className="mb-4 flex gap-2 ">
         <input
           type="text"
           required
@@ -70,8 +98,8 @@ const WidgetList = ({ id, onRemove }) => {
           onChange={(e) => setNewItem(e.target.value)}
           className="w-full sm:w-auto flex-1 p-2 rounded border transition-all duration-300 ease-in-out dark:bg-gray-600 
                     dark:border-gray-500 dark:text-white bg-gray-50 border-gray-300 text-gray-800 focus:ring-2
-                    focus:ring-blue-500 focus:border-transparent hover:border-blue-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          placeholder="Add new item"
+                    focus:ring-blue-500 focus:border-transparent hover:border-blue-300 disabled:opacity-50 disabled:cursor-not-allowed flex-col sm:flex-row gap-2"
+          placeholder="Add new item "
         />
         <button
           type="submit"
