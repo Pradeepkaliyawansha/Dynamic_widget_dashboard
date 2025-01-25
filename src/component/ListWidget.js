@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Expand } from "lucide-react";
+import { Expand, Edit, Trash2 } from "lucide-react";
 
 const WidgetList = ({ id, onRemove }) => {
   const [size, setSize] = useState(() => {
@@ -14,10 +14,12 @@ const WidgetList = ({ id, onRemove }) => {
       ? JSON.parse(savedItems)
       : [
           { id: 1, text: "Task 1", completed: false },
-          { id: 2, text: "Task 2", completed: true },
+          { id: 2, text: "Task 2", completed: false },
           { id: 3, text: "Task 3", completed: false },
         ];
   });
+
+  const [editingItem, setEditingItem] = useState(null);
 
   const sizeClasses = {
     small: "w-64 h-64",
@@ -47,6 +49,24 @@ const WidgetList = ({ id, onRemove }) => {
     if (!newItem.trim()) return;
     setItems([...items, { id: Date.now(), text: newItem, completed: false }]);
     setNewItem("");
+  };
+
+  const startEditItem = (item) => {
+    setEditingItem({ ...item });
+  };
+
+  const updateItem = () => {
+    if (!editingItem.text.trim()) return;
+    setItems(
+      items.map((item) =>
+        item.id === editingItem.id ? { ...editingItem } : item
+      )
+    );
+    setEditingItem(null);
+  };
+
+  const deleteItem = (id) => {
+    setItems(items.filter((item) => item.id !== id));
   };
 
   const toggleSize = () => {
@@ -128,17 +148,64 @@ const WidgetList = ({ id, onRemove }) => {
       >
         {items.map((item) => (
           <li key={item.id} className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={item.completed}
-              onChange={() => toggleItem(item.id)}
-              className="w-4 h-4"
-            />
-            <span
-              className={item.completed ? "line-through text-gray-500" : ""}
-            >
-              {item.text}
-            </span>
+            {editingItem && editingItem.id === item.id ? (
+              <div className="flex items-center w-full gap-2">
+                <input
+                  type="text"
+                  value={editingItem.text}
+                  onChange={(e) =>
+                    setEditingItem({ ...editingItem, text: e.target.value })
+                  }
+                  className="w-full p-2 rounded border 
+                            dark:bg-gray-600 dark:border-gray-500 dark:text-white 
+                            bg-gray-50 border-gray-300 text-gray-800 
+                            focus:ring-2 focus:ring-blue-500 focus:border-transparent 
+                            hover:border-blue-300"
+                />
+                <button
+                  onClick={updateItem}
+                  className="text-green-500 hover:bg-green-100 p-1 rounded"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => setEditingItem(null)}
+                  className="text-red-500 hover:bg-red-100 p-1 rounded"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <>
+                <input
+                  type="checkbox"
+                  checked={item.completed}
+                  onChange={() => toggleItem(item.id)}
+                  className="w-4 h-4"
+                />
+                <span
+                  className={`flex-grow ${
+                    item.completed ? "line-through text-gray-500" : ""
+                  }`}
+                >
+                  {item.text}
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => startEditItem(item)}
+                    className="text-blue-500 hover:bg-blue-100 p-1 rounded"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => deleteItem(item.id)}
+                    className="text-red-500 hover:bg-red-100 p-1 rounded"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </>
+            )}
           </li>
         ))}
       </ul>
