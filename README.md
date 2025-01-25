@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+Responsive Dashboard Widget Application
+Project Overview
+A React-based dashboard application featuring customizable widgets with drag-and-drop functionality, responsive design, and persistent local storage.
+Features
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Multiple widget types: Chart, Text, List, Image
+Drag and drop widget reordering
+Responsive design across devices
+Persistent widget state using localStorage
+Dark/Light mode support
+Widget size customization
+In-widget editing capabilities
 
-## Available Scripts
+Technologies Used
 
-In the project directory, you can run:
+React
+Tailwind CSS
+react-beautiful-dnd
+Recharts
+Lucide React Icons
 
-### `npm start`
+Prerequisites
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Node.js (v16+)
+npm or yarn
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Installation
 
-### `npm test`
+Clone the repository
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Install dependencies
 
-### `npm run build`
+npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# or
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+yarn install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Start development server
 
-### `npm run eject`
+npm start
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# or
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+yarn start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Widget Types
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Chart Widget: Customizable line charts
+Text Widget: Editable text sections
+List Widget: Manageable task/item lists
+Image Widget: Uploadable and change images
 
-## Learn More
+Responsive Design
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Adapts to mobile, tablet, and desktop screen sizes
+Flexible grid layout
+Dynamic widget sizing
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Local Storage
 
-### Code Splitting
+Widgets persist across browser sessions
+Individual widget states saved separately
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Dark Mode
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+System dark/light mode detection
+Consistent theming across widgets
