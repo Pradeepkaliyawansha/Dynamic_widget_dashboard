@@ -16,9 +16,9 @@ const WidgetText = ({ id, onRemove }) => {
   });
 
   const sizeClasses = {
-    small: "w-64 h-64",
-    medium: "w-80 h-80",
-    large: "w-150 h-96",
+    small: "w-full sm:w-full md:w-1/2 lg:w-1/3 h-64",
+    medium: "w-full sm:w-full md:w-1/2 lg:w-1/2 h-80",
+    large: "w-full h-96",
   };
 
   // Save text and size to localStorage whenever it changes
@@ -44,7 +44,7 @@ const WidgetText = ({ id, onRemove }) => {
         <div className="flex gap-2 items-center">
           <button
             onClick={toggleSize}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
+            className=" rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
             title="Change Size"
           >
             <Expand className="w-5 h-5" />

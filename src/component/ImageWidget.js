@@ -16,13 +16,13 @@ const WidgetImage = ({ id, onRemove }) => {
   });
 
   const sizeClasses = {
-    small: "w-64 h-64 p-2",
-    medium: "w-80 h-80 p-4",
-    large: "w-150 h-96 p-6",
+    small: "w-full sm:w-full md:w-1/2 lg:w-1/3 h-64 p-2",
+    medium: "w-full sm:w-full md:w-1/2 lg:w-1/2 h-80 p-4",
+    large: "w-full h-96 p-6",
   };
 
   const imageSizeClasses = {
-    small: "h-48",
+    small: "h-46",
     medium: "h-56",
     large: "h-72",
   };

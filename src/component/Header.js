@@ -11,6 +11,7 @@ export default function Header() {
               My Dashboard
             </span>
           </div>
+          {/* add toggle button to change the theme */}
           <ThemeSwitcher />
         </div>
       </div>

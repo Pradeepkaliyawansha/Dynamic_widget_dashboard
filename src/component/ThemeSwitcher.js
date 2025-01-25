@@ -5,6 +5,8 @@ const ThemeToggle = () => {
     localStorage.getItem("darkMode") === "true"
   );
 
+  //Create toggle switch for change theme
+
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");

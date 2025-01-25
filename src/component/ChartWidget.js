@@ -14,6 +14,7 @@ const WidgetChart = ({ id, onRemove }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [darkMode, setDarkMode] = useState("dark");
 
+  // Save chart data in local storage
   const [size, setSize] = useState(() => {
     const savedSize = localStorage.getItem(`widgetChartSize-${id}`);
     return savedSize || "medium";
@@ -24,7 +25,8 @@ const WidgetChart = ({ id, onRemove }) => {
     const savedData = localStorage.getItem(`widgetChart-${id}`);
     return savedData
       ? JSON.parse(savedData)
-      : [
+      : // Add sample data for chart in first load
+        [
           { name: "Jan", value: 400 },
           { name: "Feb", value: 300 },
           { name: "Mar", value: 600 },
@@ -33,14 +35,15 @@ const WidgetChart = ({ id, onRemove }) => {
         ];
   });
 
+  // Configure widget sizes in toggle sizes
   const sizeClasses = {
-    small: "w-64 h-64",
-    medium: "w-80 h-80",
-    large: "w-150 h-96",
+    small: "w-full sm:w-full md:w-1/2 lg:w-1/3 h-64",
+    medium: "w-full sm:w-full md:w-1/2 lg:w-1/2 h-80",
+    large: "w-full h-96",
   };
 
   const chartHeightClasses = {
-    small: "h-48",
+    small: "h-42",
     medium: "h-56",
     large: "h-72",
   };
@@ -74,6 +77,7 @@ const WidgetChart = ({ id, onRemove }) => {
     fill: darkMode ? "#E5E7EB" : "#374151",
   };
 
+  // Enable edit, remove and add data points
   const handleDataEdit = (index, field, value) => {
     const newData = [...data];
     newData[index][field] = value;
@@ -89,6 +93,7 @@ const WidgetChart = ({ id, onRemove }) => {
     setData(newData);
   };
 
+  //  implement the function for toggle widget sizes
   const toggleSize = () => {
     const sizes = ["small", "medium", "large"];
     const currentIndex = sizes.indexOf(size);
@@ -106,7 +111,7 @@ const WidgetChart = ({ id, onRemove }) => {
         <div className="flex gap-2 items-center">
           <button
             onClick={toggleSize}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
+            className=" rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
             title="Change Size"
           >
             <Expand className="w-5 h-5" />

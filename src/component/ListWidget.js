@@ -22,9 +22,9 @@ const WidgetList = ({ id, onRemove }) => {
   const [editingItem, setEditingItem] = useState(null);
 
   const sizeClasses = {
-    small: "w-64 h-64",
-    medium: "w-80 h-80",
-    large: "w-150 h-96",
+    small: "w-full sm:w-full md:w-1/2 lg:w-1/3 h-64",
+    medium: "w-full sm:w-full md:w-1/2 lg:w-1/2 h-80",
+    large: "w-full h-96",
   };
 
   const [newItem, setNewItem] = useState("");
@@ -44,6 +44,7 @@ const WidgetList = ({ id, onRemove }) => {
     );
   };
 
+  // Enable add edit and delete items for the list
   const addItem = (e) => {
     e.preventDefault();
     if (!newItem.trim()) return;

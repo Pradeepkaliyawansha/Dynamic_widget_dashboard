@@ -6,6 +6,7 @@ import WidgetList from "./ListWidget";
 import WidgetImage from "./ImageWidget";
 
 const Dashboard = () => {
+  //save widget in local storage
   const [widgets, setWidgets] = useState(() => {
     const savedWidgets = localStorage.getItem("dashboardWidgets");
     return savedWidgets
@@ -36,6 +37,7 @@ const Dashboard = () => {
     setWidgets(widgets.filter((widget) => widget.id !== widgetId));
   };
 
+  // add widgets
   const addWidget = (type) => {
     const newWidget = {
       id: Date.now().toString(),
@@ -57,11 +59,12 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen dark:bg-gray-800 bg-gray-100">
       <div className="container mx-auto p-4">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold dark:text-gray-100  text-black">
+        <div className="flex justify-between items-center mb-6 flex-col sm:flex-row">
+          <h1 className="text-2xl font-bold dark:text-gray-100  text-black mb-4 sm:mb-0">
             Dashboard
           </h1>
           <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
+            {/* Create buttons to add widgets  */}
             <button
               onClick={() => addWidget("chart")}
               className="w-full sm:w-auto px-4 py-2 rounded-lg 
@@ -126,7 +129,7 @@ const Dashboard = () => {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className="grid gap-4"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(12, 1fr)",
