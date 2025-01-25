@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Expand } from "lucide-react";
 
 const WidgetList = ({ id, onRemove }) => {
@@ -20,12 +20,13 @@ const WidgetList = ({ id, onRemove }) => {
   });
 
   const sizeClasses = {
-    small: "w-64",
-    medium: "w-80",
-    large: "w-150",
+    small: "w-64 h-64",
+    medium: "w-80 h-80",
+    large: "w-150 h-96",
   };
 
   const [newItem, setNewItem] = useState("");
+  const listRef = useRef(null);
 
   // Save items to localStorage whenever they change
   useEffect(() => {
@@ -55,9 +56,19 @@ const WidgetList = ({ id, onRemove }) => {
     setSize(sizes[nextIndex]);
   };
 
+  // Dynamic height calculation
+  const getHeightClass = () => {
+    const baseHeight = size === "small" ? 64 : size === "medium" ? 80 : 150;
+    const itemCount = items.length;
+    const additionalHeight = Math.min(itemCount * 40, 200); // Cap additional height
+    return `h-[${baseHeight + additionalHeight}px]`;
+  };
+
   return (
     <div
-      className={`h-full p-4 rounded-lg dark:bg-gray-700 dark:text-white bg-white text-gray-800 shadow-lg transition-all duration-300 ${sizeClasses[size]}`}
+      className={`p-4 rounded-lg dark:bg-gray-700 dark:text-white bg-white text-gray-800 shadow-lg transition-all duration-300 ${
+        sizeClasses[size]
+      } ${getHeightClass()}`}
     >
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">List Widget</h3>
@@ -96,9 +107,11 @@ const WidgetList = ({ id, onRemove }) => {
           required
           value={newItem}
           onChange={(e) => setNewItem(e.target.value)}
-          className="w-full sm:w-auto flex-1 p-2 rounded border transition-all duration-300 ease-in-out dark:bg-gray-600 
-                    dark:border-gray-500 dark:text-white bg-gray-50 border-gray-300 text-gray-800 focus:ring-2
-                    focus:ring-blue-500 focus:border-transparent hover:border-blue-300 disabled:opacity-50 disabled:cursor-not-allowed flex-col sm:flex-row gap-2"
+          className="w-full p-2 rounded border 
+      dark:bg-gray-600 dark:border-gray-500 dark:text-white 
+      bg-gray-50 border-gray-300 text-gray-800 
+      focus:ring-2 focus:ring-blue-500 focus:border-transparent 
+      hover:border-blue-300"
           placeholder="Add new item "
         />
         <button
@@ -109,7 +122,10 @@ const WidgetList = ({ id, onRemove }) => {
         </button>
       </form>
 
-      <ul className="space-y-2">
+      <ul
+        ref={listRef}
+        className="space-y-2 overflow-auto max-h-[calc(100%-150px)]"
+      >
         {items.map((item) => (
           <li key={item.id} className="flex items-center gap-2">
             <input

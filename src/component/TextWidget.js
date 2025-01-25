@@ -16,9 +16,9 @@ const WidgetText = ({ id, onRemove }) => {
   });
 
   const sizeClasses = {
-    small: "w-64",
-    medium: "w-80",
-    large: "w-150",
+    small: "w-64 h-64",
+    medium: "w-80 h-80",
+    large: "w-150 h-96",
   };
 
   // Save text and size to localStorage whenever it changes
@@ -36,10 +36,10 @@ const WidgetText = ({ id, onRemove }) => {
 
   return (
     <div
-      className={`h-full p-4 rounded-lg dark:bg-gray-700 dark:text-white bg-white text-gray-800
+      className={` p-4 rounded-lg dark:bg-gray-700 dark:text-white bg-white text-gray-800
      shadow-lg transition-all duration-300 ${sizeClasses[size]}`}
     >
-      <div className="widget-header flex justify-between items-center mb-2 ">
+      <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">Text Widget</h3>
         <div className="flex gap-2 items-center">
           <button
@@ -51,7 +51,7 @@ const WidgetText = ({ id, onRemove }) => {
           </button>
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="p-2 rounded-full hover:bg-blue-100 text-blue-500"
+            className=" rounded-full hover:bg-blue-100 text-blue-500"
           >
             <svg
               className="w-5 h-5"
@@ -69,7 +69,7 @@ const WidgetText = ({ id, onRemove }) => {
           </button>
           <button
             onClick={onRemove}
-            className="p-2 rounded-full hover:bg-red-100 text-red-500"
+            className="rounded-full hover:bg-red-100 text-red-500"
           >
             <svg
               className="w-5 h-5"

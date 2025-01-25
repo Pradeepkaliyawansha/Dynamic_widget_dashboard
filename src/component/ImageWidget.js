@@ -16,15 +16,15 @@ const WidgetImage = ({ id, onRemove }) => {
   });
 
   const sizeClasses = {
-    small: "w-64 p-2",
-    medium: "w-80 p-4",
-    large: "w-150 p-6",
+    small: "w-64 h-64 p-2",
+    medium: "w-80 h-80 p-4",
+    large: "w-150 h-96 p-6",
   };
 
   const imageSizeClasses = {
-    small: "h-24",
-    medium: "h-40",
-    large: "h-64",
+    small: "h-48",
+    medium: "h-56",
+    large: "h-72",
   };
 
   // Effect to save image to sessionStorage whenever it changes

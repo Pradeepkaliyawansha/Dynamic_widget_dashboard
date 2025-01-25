@@ -34,15 +34,22 @@ const WidgetChart = ({ id, onRemove }) => {
   });
 
   const sizeClasses = {
-    small: "w-64",
-    medium: "w-80",
-    large: "w-150",
+    small: "w-64 h-64",
+    medium: "w-80 h-80",
+    large: "w-150 h-96",
   };
 
   const chartHeightClasses = {
-    small: "h-32",
-    medium: "h-48",
-    large: "h-64",
+    small: "h-48",
+    medium: "h-56",
+    large: "h-72",
+  };
+
+  // Dynamic height calculation for editing
+  const calculateEditHeight = () => {
+    const baseHeight = 130; // Base height for editing
+    const preItemHeight = 42; // Height per data point
+    return `${baseHeight + data.length * preItemHeight}px`;
   };
 
   // Save data to localStorage when it changes
@@ -92,10 +99,11 @@ const WidgetChart = ({ id, onRemove }) => {
   return (
     <div
       className={`p-4 rounded-lg bg-white text-gray-800 shadow-lg dark:bg-gray-700 dark:text-white ${sizeClasses[size]}`}
+      style={isEditing ? { height: `${calculateEditHeight()}` } : {}}
     >
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">Chart Widget</h3>
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2 items-center">
           <button
             onClick={toggleSize}
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
@@ -105,7 +113,7 @@ const WidgetChart = ({ id, onRemove }) => {
           </button>
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="p-2 rounded-full hover:bg-blue-100 text-blue-500"
+            className=" rounded-full hover:bg-blue-100 text-blue-500"
           >
             <svg
               className="w-5 h-5"
@@ -123,7 +131,7 @@ const WidgetChart = ({ id, onRemove }) => {
           </button>
           <button
             onClick={onRemove}
-            className="p-2 rounded-full hover:bg-red-100 text-red-500"
+            className="rounded-full hover:bg-red-100 text-red-500"
           >
             <svg
               className="w-5 h-5"
@@ -143,15 +151,21 @@ const WidgetChart = ({ id, onRemove }) => {
       </div>
 
       {isEditing ? (
-        <div className="space-y-2">
+        <div
+          className="space-y-2 overflow-y-auto"
+          style={{ maxHeight: calculateEditHeight() }}
+        >
           {data.map((point, index) => (
-            <div key={index} className="flex items-center gap-2">
+            <div
+              key={index}
+              className="flex flex-col sm:flex-row items-center gap-2"
+            >
               <input
                 type="text"
                 value={point.name}
                 onChange={(e) => handleDataEdit(index, "name", e.target.value)}
                 placeholder="Month"
-                className="flex-1 p-1 border rounded dark:bg-gray-600"
+                className="w-full sm:flex-1 p-1 border rounded dark:bg-gray-600"
               />
               <input
                 type="number"
@@ -160,19 +174,33 @@ const WidgetChart = ({ id, onRemove }) => {
                   handleDataEdit(index, "value", Number(e.target.value))
                 }
                 placeholder="Value"
-                className="w-20 p-1 border rounded dark:bg-gray-600"
+                className="w-full sm:w-20 p-1 border rounded dark:bg-gray-600"
               />
               <button
                 onClick={() => removeDataPoint(index)}
                 className="text-red-500 hover:bg-red-100 p-1 rounded"
               >
-                Remove
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 6h18" />
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                </svg>
               </button>
             </div>
           ))}
           <button
             onClick={addDataPoint}
-            className="mt-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 self-end"
           >
             Add Data Point
           </button>
